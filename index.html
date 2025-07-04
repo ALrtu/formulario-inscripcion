@@ -33,17 +33,24 @@
       e.preventDefault();
       const data = Object.fromEntries(new FormData(form));
 
-      await fetch("https://script.google.com/macros/s/AKfycbwKb4B9XjEBCYwLc7od5_h1PoKgg41rtHVfMA3x4lxOTiskcE1XdhqmPzexQlnt-JnRig/exec", {
-        method: "POST",
-        mode: "no-cors",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data)
-      });
+      try {
+        const response = await fetch("https://script.google.com/macros/s/AKfycbwKb4B9XjEBCYwLc7od5_h1PoKgg41rtHVfMA3x4lxOTiskcE1XdhqmPzexQlnt-JnRig/exec", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(data)
+        });
 
-      document.getElementById("respuesta").innerText = "✅ Registro enviado correctamente";
-      form.reset();
+        const text = await response.text(); // ← Obtener texto como "OK" o errores del Apps Script
+        document.getElementById("respuesta").innerText = "✅ " + text;
+        form.reset();
+      } catch (error) {
+        document.getElementById("respuesta").innerText = "❌ Error al enviar: " + error.message;
+      }
     });
   </script>
 </body>
 </html>
+
 
