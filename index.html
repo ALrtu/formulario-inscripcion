@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Inscripción a la carrera</title>
+</head>
+<body>
+  <h2>Formulario de Inscripción</h2>
+  <form id="registroForm">
+    <label>Nombre:</label><br>
+    <input type="text" name="nombre" required><br><br>
+
+    <label>Edad:</label><br>
+    <input type="number" name="edad" required><br><br>
+
+    <label>Correo:</label><br>
+    <input type="email" name="correo" required><br><br>
+
+    <label>Distancia:</label><br>
+    <select name="distancia" required>
+      <option value="3km">3 km</option>
+      <option value="5km">5 km</option>
+    </select><br><br>
+
+    <button type="submit">Enviar</button>
+  </form>
+
+  <p id="respuesta"></p>
+
+  <script>
+    const form = document.getElementById("registroForm");
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const data = Object.fromEntries(new FormData(form));
+
+      await fetch("TU_URL_DEL_SCRIPT", {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+      });
+
+      document.getElementById("respuesta").innerText = "✅ Registro enviado correctamente";
+      form.reset();
+    });
+  </script>
+</body>
+</html>
