@@ -2,28 +2,28 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>Inscripción a la carrera</title>
+  <title>Inscripción a la Carrera</title>
 </head>
 <body>
   <h2>Formulario de Inscripción</h2>
-  <form id="formulario">
+  <form action="https://script.google.com/macros/s/AKfycb.../exec" method="POST" target="resultado">
     <label>Nombre:</label><br>
-    <input type="text" id="nombre" required><br><br>
+    <input type="text" name="nombre" required><br><br>
 
     <label>Cédula:</label><br>
-    <input type="text" id="cedula" required><br><br>
+    <input type="text" name="cedula" required><br><br>
 
     <label>Teléfono:</label><br>
-    <input type="text" id="telefono" required><br><br>
+    <input type="text" name="telefono" required><br><br>
 
     <label>Edad:</label><br>
-    <input type="number" id="edad" required><br><br>
+    <input type="number" name="edad" required><br><br>
 
     <label>Barrio:</label><br>
-    <input type="text" id="barrio" required><br><br>
+    <input type="text" name="barrio" required><br><br>
 
     <label>Distancia:</label><br>
-    <select id="distancia" required>
+    <select name="distancia" required>
       <option value="3km">3 km</option>
       <option value="5km">5 km</option>
     </select><br><br>
@@ -31,50 +31,12 @@
     <button type="submit">Enviar</button>
   </form>
 
-  <p id="mensaje"></p>
-  <p id="contador"></p>
+  <hr>
+  <h3>Resultado:</h3>
+  <iframe name="resultado" style="border:1px solid #ccc; width:100%; height:150px;"></iframe>
+</body>
+</html>
 
-  <script>
-    const url = "https://script.google.com/macros/s/AKfycbwKb4B9XjEBCYwLc7od5_h1PoKgg41rtHVfMA3x4lxOTiskcE1XdhqmPzexQlnt-JnRig/exec";
-
-    document.getElementById('formulario').addEventListener('submit', async function(e) {
-      e.preventDefault();
-
-      const nombre = document.getElementById('nombre').value.trim();
-      const cedula = document.getElementById('cedula').value.trim();
-      const telefono = document.getElementById('telefono').value.trim();
-      const edad = document.getElementById('edad').value.trim();
-      const barrio = document.getElementById('barrio').value.trim();
-      const distancia = document.getElementById('distancia').value;
-
-      const data = { nombre, cedula, telefono, edad, barrio, distancia };
-
-      try {
-        const response = await fetch(url, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(data)
-        });
-
-        const result = await response.json();
-
-        if (result.error === "cedula_duplicada") {
-          document.getElementById('mensaje').textContent = "❌ Ya existe una inscripción con esa cédula.";
-          return;
-        }
-
-        document.getElementById('mensaje').textContent =
-          `✅ ¡Gracias ${nombre}! Tu número de inscripción es ${result.numero}`;
-        document.getElementById('contador').textContent =
-          `📋 Total de inscritos: ${result.total}`;
-
-        document.getElementById('formulario').reset();
-      } catch (error) {
-        console.error("Error:", error);
-        document.getElementById('mensaje').textContent =
-          "❌ Hubo un problema al registrar. Inténtalo más tarde.";
-      }
-    });
   </script>
 </body>
 </html>
