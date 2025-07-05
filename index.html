@@ -1,11 +1,12 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
   <meta charset="UTF-8">
   <title>Inscripción a la carrera</title>
 </head>
 <body>
   <h2>Formulario de Inscripción</h2>
+
   <form id="formulario">
     <label>Nombre:</label><br>
     <input type="text" id="nombre" required><br><br>
@@ -31,7 +32,7 @@
     <button type="submit">Enviar</button>
   </form>
 
-  <p id="mensaje"></p>
+  <p id="mensaje" style="font-weight:bold; margin-top: 10px;"></p>
 
   <script>
     const url = "https://script.google.com/macros/s/AKfycbwKb4B9XjEBCYwLc7od5_h1PoKgg41rtHVfMA3x4lxOTiskcE1XdhqmPzexQlnt-JnRig/exec";
@@ -39,12 +40,12 @@
     document.getElementById('formulario').addEventListener('submit', async function(e) {
       e.preventDefault();
 
-      const nombre = document.getElementById('nombre').value;
-      const cedula = document.getElementById('cedula').value;
-      const telefono = document.getElementById('telefono').value;
+      const nombre = document.getElementById('nombre').value.trim();
+      const cedula = document.getElementById('cedula').value.trim();
+      const telefono = document.getElementById('telefono').value.trim();
       const edad = document.getElementById('edad').value;
-      const barrio = document.getElementById('barrio').value;
-      const distancia = document.getElementById('distancia').value === "true"; // booleano
+      const barrio = document.getElementById('barrio').value.trim();
+      const distancia = document.getElementById('distancia').value === "true"; // true para 5km, false para 3km
 
       const data = { nombre, cedula, telefono, edad, barrio, distancia };
 
@@ -58,9 +59,9 @@
         });
 
         const result = await response.json();
+        
         document.getElementById('mensaje').textContent =
-  `✅ ¡Gracias ${nombre}! Tu número de inscripción es ${result.numero}`;
-
+          `✅ ¡Gracias ${nombre}! Tu número de inscripción es ${result.numero}`;
 
         document.getElementById('formulario').reset();
       } catch (error) {
@@ -72,3 +73,4 @@
   </script>
 </body>
 </html>
+
