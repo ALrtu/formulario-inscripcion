@@ -24,8 +24,8 @@
 
     <label>Distancia:</label><br>
     <select id="distancia" required>
-      <option value="3km">3 km</option>
-      <option value="5km">5 km</option>
+      <option value="false">3 km</option>
+      <option value="true">5 km</option>
     </select><br><br>
 
     <button type="submit">Enviar</button>
@@ -44,23 +44,32 @@
       const telefono = document.getElementById('telefono').value;
       const edad = document.getElementById('edad').value;
       const barrio = document.getElementById('barrio').value;
-      const distancia = document.getElementById('distancia').value;
+      const distancia = document.getElementById('distancia').value === "true"; // booleano
 
       const data = { nombre, cedula, telefono, edad, barrio, distancia };
 
-      const response = await fetch(url, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data)
-      });
+      try {
+        const response = await fetch(url, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
 
-      const result = await response.json();
-      document.getElementById('mensaje').textContent = `✅ ¡Gracias ${nombre}! Tu número de inscripción es ${result.numero}`;
-      document.getElementById('formulario').reset();
+        const result = await response.json();
+        document.getElementById('mensaje').textContent =
+          `✅ ¡Gracias ${nombre}! Tu número de inscripción es ${result.numero}`;
+
+        document.getElementById('formulario').reset();
+      } catch (error) {
+        console.error("Error:", error);
+        document.getElementById('mensaje').textContent =
+          "❌ Hubo un problema al registrar. Inténtalo más tarde.";
+      }
     });
   </script>
 </body>
 </html>
+
 
