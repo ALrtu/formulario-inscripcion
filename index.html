@@ -59,7 +59,8 @@
 
         const result = await response.json();
         document.getElementById('mensaje').textContent =
-          ✅ ¡Gracias ${nombre}! Tu número de inscripción es ${result.numero};
+  `✅ ¡Gracias ${nombre}! Tu número de inscripción es ${result.numero}`;
+
 
         document.getElementById('formulario').reset();
       } catch (error) {
