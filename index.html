@@ -6,44 +6,60 @@
 </head>
 <body>
   <h2>Formulario de Inscripción</h2>
-  <form id="registroForm">
+  <form id="formulario">
     <label>Nombre:</label><br>
-    <input type="text" name="nombre" required><br><br>
+    <input type="text" id="nombre" required><br><br>
+
+    <label>Cédula:</label><br>
+    <input type="text" id="cedula" required><br><br>
+
+    <label>Teléfono:</label><br>
+    <input type="text" id="telefono" required><br><br>
 
     <label>Edad:</label><br>
-    <input type="number" name="edad" required><br><br>
+    <input type="number" id="edad" required><br><br>
 
-    <label>Correo:</label><br>
-    <input type="email" name="correo" required><br><br>
+    <label>Barrio:</label><br>
+    <input type="text" id="barrio" required><br><br>
 
     <label>Distancia:</label><br>
-    <select name="distancia" required>
-      <option value="3km">3 km</option>
-      <option value="5km">5 km</option>
+    <select id="distancia" required>
+      <option value="false">3 km</option>
+      <option value="true">5 km</option>
     </select><br><br>
 
     <button type="submit">Enviar</button>
   </form>
 
-  <p id="respuesta"></p>
+  <p id="mensaje"></p>
 
   <script>
-    const form = document.getElementById("registroForm");
-    form.addEventListener("submit", async (e) => {
-      e.preventDefault();
-      const data = Object.fromEntries(new FormData(form));
+    const url = "https://script.google.com/macros/s/AKfycbzVzTzXCof3Y3uqv_XS9-zCEtToEdnu9pxzjiuozHH7oS3bU7KBiwhRwcqEXNvJlC5_xw/exec";
 
-      await fetch("https://script.google.com/macros/s/AKfycbwKb4B9XjEBCYwLc7od5_h1PoKgg41rtHVfMA3x4lxOTiskcE1XdhqmPzexQlnt-JnRig/exec", {
-        method: "POST",
-        mode: "no-cors",
-        headers: { "Content-Type": "application/json" },
+    document.getElementById('formulario').addEventListener('submit', async function(e) {
+      e.preventDefault();
+
+      const nombre = document.getElementById('nombre').value;
+      const cedula = document.getElementById('cedula').value;
+      const telefono = document.getElementById('telefono').value;
+      const edad = document.getElementById('edad').value;
+      const barrio = document.getElementById('barrio').value;
+      const distancia = document.getElementById('distancia').value === "true"; // convierte a booleano
+
+      const data = { nombre, cedula, telefono, edad, barrio, distancia };
+
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
       });
 
-      document.getElementById("respuesta").innerText = "✅ Registro enviado correctamente";
-      form.reset();
+      const result = await response.json();
+      document.getElementById('mensaje').textContent = `✅ ¡Gracias ${nombre}! Tu número de inscripción es ${result.numero}`;
+      document.getElementById('formulario').reset();
     });
   </script>
 </body>
 </html>
+
 
