@@ -24,8 +24,8 @@
 
     <label>Distancia:</label><br>
     <select id="distancia" required>
-      <option value="false">3 km</option>
-      <option value="true">5 km</option>
+      <option value="3km">3 km</option>
+      <option value="5km">5 km</option>
     </select><br><br>
 
     <button type="submit">Enviar</button>
@@ -44,13 +44,15 @@
       const telefono = document.getElementById('telefono').value;
       const edad = document.getElementById('edad').value;
       const barrio = document.getElementById('barrio').value;
-      const distancia = document.getElementById('distancia').value === "true"; // convierte a booleano
+      const distancia = document.getElementById('distancia').value;
 
       const data = { nombre, cedula, telefono, edad, barrio, distancia };
 
       const response = await fetch(url, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+        },
         body: JSON.stringify(data)
       });
 
